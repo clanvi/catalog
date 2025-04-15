@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Каталог</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="catalog">
+    <div class="item">
+      <img src="https://via.placeholder.com/200x200.png?text=Кеды" alt="Кеды">
+      <div class="info">
+        <h3>Меховые кеды</h3>
+        <p>8 500 ₽</p>
+        <div class="colors">
+          <div class="color beige"></div>
+          <div class="color brown"></div>
+        </div>
+        <button onclick="addToCart('Меховые кеды', 8500)">+ Добавить</button>
+      </div>
+    </div>
+
+    <div class="item">
+      <img src="https://via.placeholder.com/200x200.png?text=Плащ" alt="Плащ">
+      <div class="info">
+        <h3>Укороченный плащ</h3>
+        <p>14 500 ₽</p>
+        <div class="colors">
+          <div class="color khaki"></div>
+        </div>
+        <button onclick="addToCart('Укороченный плащ', 14500)">+ Добавить</button>
+      </div>
+    </div>
+  </div>
+
+<div class="item">
+      <img src="https://via.placeholder.com/200x200.png?text=Плащ Хуящ" alt="Плащ">
+      <div class="info">
+        <h3>Укороченный плащ</h3>
+        <p>14 500 ₽</p>
+        <div class="colors">
+          <div class="color khaki"></div>
+        </div>
+        <button onclick="addToCart('Укороченный плащ Хуящ', 14500)">+ Добавить</button>
+      </div>
+    </div>
+  </div>
+
+
+ <div class="item">
+      <img src="https://via.placeholder.com/200x200.png?text=Плащ" alt="Плащ">
+      <div class="info">
+        <h3>Укороченный плащ</h3>
+        <p>14 500 ₽</p>
+        <div class="colors">
+          <div class="color khaki"></div>
+        </div>
+        <button onclick="addToCart('Укороченный хряк', 14500)">+ Добавить</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="cart">
+    <button onclick="showCart()">🛒 Корзина (<span id="cart-count">0</span>)</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
