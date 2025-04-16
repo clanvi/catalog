@@ -5,6 +5,26 @@
   <title>Каталог</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<style>
+        .container {
+            display: flex;         /* Включаем Flexbox */
+            flex-wrap: wrap;       /* Разрешаем элементы переходить на новую строку */
+            gap: 20px;             /* Отступы между товарами */
+        }
+
+        .item {
+            width: calc(50% - 20px); /* Устанавливаем ширину товара на 50% минус отступы */
+            border: 1px solid #ddd; /* Добавляем рамку товара */
+            padding: 10px;           /* Отступы внутри товара */
+            box-sizing: border-box;  /* Учитываем отступы в расчете ширины */
+        }
+
+        .item img {
+            max-width: 100%;         /* Картинка будет растягиваться по ширине */
+            height: auto;            /* Пропорциональная высота */
+        }
+    </style>
+
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
