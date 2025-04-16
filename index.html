@@ -5,7 +5,7 @@
   <title>Каталог</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
+  <style>
         /* Стили для страницы */
         body {
             font-family: Arial, sans-serif;
@@ -68,13 +68,13 @@
                 grid-template-columns: 1fr; /* Одна колонка на мобильных устройствах */
             }
         }
-    </style>
+  </style>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="catalog">
+  <div class="container">
     <div class="item">
       <img src="https://via.placeholder.com/200x200.png?text=Кеды" alt="Кеды">
       <div class="info">
@@ -99,48 +99,43 @@
         <button onclick="addToCart('Укороченный плащ', 14500)">+ Добавить</button>
       </div>
     </div>
-  </div>
 
-<div class="item">
+    <div class="item">
       <img src="https://via.placeholder.com/200x200.png?text=Плащ Зимний" alt="Плащ">
       <div class="info">
-        <h3>Укороченный плащ</h3>
-        <p>14 500 ₽</p>
+        <h3>Зимний плащ</h3>
+        <p>15 500 ₽</p>
         <div class="colors">
-          <div class="color khaki"></div>
+          <div class="color black"></div>
         </div>
-        <button onclick="addToCart('Укороченный плащ Хуящ', 14500)">+ Добавить</button>
+        <button onclick="addToCart('Зимний плащ', 15500)">+ Добавить</button>
       </div>
     </div>
-  </div>
 
-
- <div class="item">
+    <div class="item">
       <img src="https://via.placeholder.com/200x200.png?text=Плащ" alt="Плащ">
       <div class="info">
-        <h3>Укороченный плащ</h3>
-        <p>14 500 ₽</p>
+        <h3>Летний плащ</h3>
+        <p>10 500 ₽</p>
         <div class="colors">
-          <div class="color khaki"></div>
+          <div class="color red"></div>
         </div>
-        <button onclick="addToCart('Укороченный хряк', 14500)">+ Добавить</button>
+        <button onclick="addToCart('Летний плащ', 10500)">+ Добавить</button>
       </div>
     </div>
-  </div>
 
-<div class="item">
+    <div class="item">
       <img src="https://via.placeholder.com/200x200.png?text=Плащ" alt="Плащ">
       <div class="info">
-        <h3>Укороченный рубаха</h3>
-        <p>14 500 ₽</p>
+        <h3>Легкий плащ</h3>
+        <p>9 500 ₽</p>
         <div class="colors">
-          <div class="color khaki"></div>
+          <div class="color green"></div>
         </div>
-        <button onclick="addToCart('Укороченный плащ', 14500)">+ Добавить</button>
+        <button onclick="addToCart('Легкий плащ', 9500)">+ Добавить</button>
       </div>
     </div>
   </div>
-
 
   <div class="cart">
     <button onclick="showCart()">🛒 Корзина (<span id="cart-count">0</span>)</button>
