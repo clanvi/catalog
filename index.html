@@ -45,6 +45,31 @@
     .btn:active {
       opacity: 0.8;
     }
+    /* Используем Grid для отображения двух товаров в ряду */
+    #product-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2 колонки */
+      gap: 16px;
+      padding: 10px;
+    }
+
+    /* Адаптивность для меньших экранов */
+    @media (max-width: 768px) {
+      #product-list {
+        grid-template-columns: repeat(1, 1fr); /* 1 колонка на малых экранах */
+      }
+    }
+
+    /* Кнопка возврата */
+    #back-to-products {
+      display: none;
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -61,6 +86,11 @@
 <div id="product-list"></div>
 
 <button onclick="openCart()" class="btn" style="margin: 20px auto; display: block; width: 90%;">Корзина</button>
+
+<!-- Кнопка возврата к списку товаров -->
+<div id="back-to-products">
+  ← Назад к товарам
+</div>
 
 <!-- Категории -->
 <div id="category-modal" style="display:none; position:fixed; inset:0; background:white; z-index:999; padding:20px; overflow-y:auto;">
@@ -186,6 +216,8 @@
 
   function openCategories() {
     document.getElementById('category-modal').style.display = 'block';
+    document.getElementById('product-list').style.display = 'none';
+    document.getElementById('back-to-products').style.display = 'block'; // Показываем кнопку возврата
   }
 
   function applyCategory() {
@@ -198,6 +230,8 @@
     }
     document.getElementById('selected-category-label').textContent = selectedCategory;
     document.getElementById('category-modal').style.display = 'none';
+    document.getElementById('product-list').style.display = 'block';
+    document.getElementById('back-to-products').style.display = 'none'; // Скрываем кнопку возврата
     const filtered = selectedCategory === "Все товары"
       ? products
       : products.filter(p => p.category === selectedCategory);
@@ -224,6 +258,12 @@
   function closeCart() {
     document.getElementById('cart-modal').style.display = 'none';
   }
+
+  document.getElementById('back-to-products').onclick = () => {
+    document.getElementById('category-modal').style.display = 'none';
+    document.getElementById('product-list').style.display = 'block';
+    document.getElementById('back-to-products').style.display = 'none';
+  };
 
   renderProducts(products);
 </script>
