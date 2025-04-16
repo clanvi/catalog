@@ -2,167 +2,231 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CLAN VI</title>
+  <title>FASHION FABRIQUE</title>
   <style>
     body {
       font-family: sans-serif;
       margin: 0;
-      padding: 0;
       background: #f5f5f5;
     }
-
-    .app-container {
-      width: 100%;
-      max-width: 400px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
     header {
-      padding: 16px;
-      font-weight: bold;
-      font-size: 18px;
-      text-align: center;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .search-bar {
-      padding: 8px 16px;
-      display: flex;
-      align-items: center;
-    }
-
-    .search-bar input {
-      flex: 1;
-      padding: 8px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    .categories {
-      padding: 16px;
-      font-weight: bold;
-    }
-
-    .product-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      padding: 0 16px 16px;
-    }
-
-    .product-card {
-      width: calc(50% - 8px);
       background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .product-card img {
-      width: 100%;
-      height: auto;
-    }
-
-    .product-info {
-      padding: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .price {
-      font-weight: bold;
-    }
-
-    .color-options {
-      display: flex;
-      gap: 8px;
-      margin: 4px 0;
-    }
-
-    .color-circle {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 2px solid #ccc;
-    }
-
-    .color-pink { background: pink; }
-    .color-blue { background: #8cc4f5; }
-    .color-brown { background: #a37d58; }
-    .color-beige { background: #d5c2a5; }
-
-    .add-btn {
-      margin: 8px;
-      padding: 8px;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      text-align: center;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .cart-button {
-      background: #23a2f6;
-      color: white;
-      text-align: center;
       padding: 16px;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: bold;
-      cursor: pointer;
-      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #eee;
+      text-align: center;
     }
-
+    .product-card {
+      background: #fff;
+      margin: 10px;
+      border-radius: 10px;
+      padding: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .product-img {
+      width: 100%;
+      border-radius: 8px;
+    }
+    .product-title {
+      font-weight: bold;
+      margin-top: 8px;
+    }
+    .btn {
+      background: #2296f3;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .btn:active {
+      opacity: 0.8;
+    }
   </style>
 </head>
 <body>
-  <div class="app-container">
-    <header>FASHION FABRIQUE</header>
 
-    <div class="search-bar">
-      <input type="text" placeholder="Я ищу...">
-    </div>
+<header>FASHION FABRIQUE</header>
 
-    <div class="categories">Категории</div>
+<input type="text" id="search-input" placeholder="Я ищу..." oninput="searchProducts()" style="width: 90%; margin: 10px auto; display: block; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc;">
 
-    <div class="product-list">
-      <div class="product-card">
-        <img src="https://via.placeholder.com/300x300?text=Куртка" alt="Куртка">
-        <div class="product-info">
-          <div class="price">19 500 ₽</div>
-          <div>КУРТКА С ВЫШИВКОЙ</div>
-          <div class="color-options">
-            <div class="color-circle color-blue"></div>
-            <div class="color-circle color-pink"></div>
-          </div>
-          <div class="add-btn">+ Добавить</div>
+<div id="category-select" onclick="openCategories()" style="padding: 12px 16px; background: white; border-bottom: 1px solid #eee; cursor: pointer;">
+  <div style="font-weight: bold;">Категории</div>
+  <div style="color: #888;" id="selected-category-label">Все товары</div>
+</div>
+
+<div id="product-list"></div>
+
+<button onclick="openCart()" class="btn" style="margin: 20px auto; display: block; width: 90%;">Корзина</button>
+
+<!-- Категории -->
+<div id="category-modal" style="display:none; position:fixed; inset:0; background:white; z-index:999; padding:20px; overflow-y:auto;">
+  <h3>Выберите категорию</h3>
+  <label><input type="radio" name="category" value="Все товары" checked> Все товары</label><br>
+  <label><input type="radio" name="category" value="Одежда"> Одежда</label><br>
+  <label><input type="radio" name="category" value="Обувь"> Обувь</label><br>
+  <label><input type="radio" name="category" value="Аксессуары"> Аксессуары</label><br>
+  <label><input type="radio" name="category" value="Last chance"> Last chance</label><br>
+  <label><input type="radio" name="category" value="sale -25%"> sale -25%</label><br>
+  <label><input type="radio" name="category" value="sale -40%"> sale -40%</label><br><br>
+  <button onclick="applyCategory()" class="btn">Посмотреть</button>
+</div>
+
+<!-- Корзина -->
+<div id="cart-modal" style="display:none; position:fixed; inset:0; background:white; z-index:1000; padding:20px; overflow-y:auto;">
+  <h3>🛒 Моя корзина</h3>
+  <div id="cart-items"></div>
+  <button onclick="closeCart()" class="btn" style="background: #ccc; color: #000; margin-top: 20px;">Закрыть</button>
+</div>
+
+<script>
+  const products = [
+    {
+      id: '1',
+      title: 'КУРТКА С ВЫШИВКОЙ',
+      price: 19500,
+      image: 'https://via.placeholder.com/300x400?text=Куртка',
+      colors: ['#eacaca', '#c0e0ff'],
+      category: 'Одежда'
+    },
+    {
+      id: '2',
+      title: 'МЕХОВЫЕ КЕДЫ',
+      price: 8500,
+      image: 'https://via.placeholder.com/300x400?text=Кеды',
+      colors: ['#b6a27b', '#a8a8a8'],
+      category: 'Обувь'
+    },
+    {
+      id: '3',
+      title: 'ТЕПЛЫЙ СВИТЕР',
+      price: 12000,
+      image: 'https://via.placeholder.com/300x400?text=Свитер',
+      colors: ['#9f6c4d', '#f1e5e0'],
+      category: 'Одежда'
+    },
+    {
+      id: '4',
+      title: 'КОЖАНЫЕ САПОГИ',
+      price: 15000,
+      image: 'https://via.placeholder.com/300x400?text=Сапоги',
+      colors: ['#564b4a', '#c5a88d'],
+      category: 'Обувь'
+    },
+    {
+      id: '5',
+      title: 'ДЖИНСОВАЯ РУБАШКА',
+      price: 9500,
+      image: 'https://via.placeholder.com/300x400?text=Рубашка',
+      colors: ['#476b9d', '#a6a6a6'],
+      category: 'Одежда'
+    },
+    {
+      id: '6',
+      title: 'МУЖСКИЕ ЧАСЫ',
+      price: 20000,
+      image: 'https://via.placeholder.com/300x400?text=Часы',
+      colors: ['#333333', '#d0c7c7'],
+      category: 'Аксессуары'
+    },
+    {
+      id: '7',
+      title: 'СУМКА-РЮКЗАК',
+      price: 11000,
+      image: 'https://via.placeholder.com/300x400?text=Сумка',
+      colors: ['#f2d8c7', '#9d9d9d'],
+      category: 'Аксессуары'
+    },
+    {
+      id: '8',
+      title: 'ЛЕТНИЕ КЕДЫ',
+      price: 6900,
+      image: 'https://via.placeholder.com/300x400?text=Летние+Кеды',
+      colors: ['#f7f7f7', '#5a5a5a'],
+      category: 'Обувь'
+    }
+  ];
+
+  let selectedCategory = 'Все товары';
+  const selectedColors = {};
+  const cart = [];
+
+  function renderProducts(list) {
+    const container = document.getElementById('product-list');
+    container.innerHTML = '';
+    list.forEach(product => {
+      const colorOptions = product.colors.map(color =>
+        `<span onclick="selectColor('${product.id}', '${color}')" style="display:inline-block;width:20px;height:20px;border-radius:50%;background:${color};margin-right:5px;cursor:pointer;border:2px solid #ccc;"></span>`
+      ).join('');
+      container.innerHTML += `
+        <div class="product-card">
+          <img src="${product.image}" class="product-img">
+          <div class="product-title">${product.title}</div>
+          <div>${product.price} ₽</div>
+          <div style="margin-top: 8px;">${colorOptions}</div>
+          <button class="btn" onclick="addToCart('${product.id}')">+ Добавить</button>
         </div>
-      </div>
+      `;
+    });
+  }
 
-      <div class="product-card">
-        <img src="https://via.placeholder.com/300x300?text=Кеды" alt="Кеды">
-        <div class="product-info">
-          <div class="price">8 500 ₽</div>
-          <div>МЕХОВЫЕ КЕДЫ</div>
-          <div class="color-options">
-            <div class="color-circle color-brown"></div>
-            <div class="color-circle color-beige"></div>
-          </div>
-          <div class="add-btn">+ Добавить</div>
-        </div>
-      </div>
-    </div>
+  function selectColor(productId, color) {
+    selectedColors[productId] = color;
+  }
 
-    <div class="cart-button">Корзина</div>
-  </div>
+  function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    const color = selectedColors[productId] || product.colors[0];
+    cart.push({ ...product, color });
+    alert('Товар добавлен в корзину!');
+  }
+
+  function openCategories() {
+    document.getElementById('category-modal').style.display = 'block';
+  }
+
+  function applyCategory() {
+    const radios = document.getElementsByName('category');
+    for (let radio of radios) {
+      if (radio.checked) {
+        selectedCategory = radio.value;
+        break;
+      }
+    }
+    document.getElementById('selected-category-label').textContent = selectedCategory;
+    document.getElementById('category-modal').style.display = 'none';
+    const filtered = selectedCategory === "Все товары"
+      ? products
+      : products.filter(p => p.category === selectedCategory);
+    renderProducts(filtered);
+  }
+
+  function searchProducts() {
+    const query = document.getElementById('search-input').value.toLowerCase();
+    const filtered = products.filter(p => p.title.toLowerCase().includes(query));
+    renderProducts(filtered);
+  }
+
+  function openCart() {
+    document.getElementById('cart-modal').style.display = 'block';
+    const cartItems = cart.map(item => `
+      <div style="margin-bottom: 12px; border-bottom: 1px solid #ccc; padding-bottom: 8px;">
+        <div><b>${item.title}</b> – ${item.price} ₽</div>
+        <div>Цвет: <span style="display:inline-block;width:12px;height:12px;background:${item.color};border-radius:50%;"></span></div>
+      </div>
+    `).join('');
+    document.getElementById('cart-items').innerHTML = cartItems;
+  }
+
+  function closeCart() {
+    document.getElementById('cart-modal').style.display = 'none';
+  }
+
+  renderProducts(products);
+</script>
+
 </body>
 </html>
