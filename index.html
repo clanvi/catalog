@@ -12,14 +12,14 @@
       background-color: #f8f8f8;
       margin: 0;
       padding: 0;
+      overflow-x: hidden; /* Убираем горизонтальный скроллинг */
     }
 
     .container {
       display: grid; /* Это обязательно! */
       grid-template-columns: repeat(2, 1fr);  /* 2 колонки */
-      gap: 20px;
-      padding: 20px;
-      width: 100%;
+      gap: 10px;
+      padding: 10px;
       max-width: 100%;
       box-sizing: border-box;
     }
@@ -34,7 +34,7 @@
     }
 
     .item img {
-      max-width: 100%;
+      width: 100%;
       height: auto;
       border-radius: 4px;
     }
@@ -77,12 +77,20 @@
       }
     }
 
+    /* Для очень узких экранов */
+    @media (max-width: 480px) {
+      .container {
+        grid-template-columns: 1fr; /* Одна колонка на очень узких экранах */
+      }
+
+      .item {
+        margin-bottom: 10px; /* Уменьшаем отступы для маленьких экранов */
+      }
+    }
+
     /* Минимизация возможного горизонтального скроллинга */
     * {
       box-sizing: border-box;
-    }
-    html, body {
-      overflow-x: hidden; /* Это предотвратит горизонтальный скроллинг */
     }
   </style>
 
@@ -101,64 +109,3 @@
             <div class="color beige"></div>
             <div class="color brown"></div>
           </div>
-          <button onclick="addToCart('Меховые кеды', 8500)">+ Добавить</button>
-        </div>
-      </div>
-
-      <div class="item">
-        <img src="https://i.imgur.com/abc123.jpg" alt="Плащ" style="max-width: 100%; height: auto;">
-        <div class="info">
-          <h3>Укороченный плащ</h3>
-          <p>14 500 ₽</p>
-          <div class="colors">
-            <div class="color khaki"></div>
-          </div>
-          <button onclick="addToCart('Укороченный плащ', 14500)">+ Добавить</button>
-        </div>
-      </div>
-
-      <div class="item">
-        <img src="https://via.placeholder.com/200x200.png?text=Плащ Зимний" alt="Плащ">
-        <div class="info">
-          <h3>Укороченный плащ</h3>
-          <p>14 500 ₽</p>
-          <div class="colors">
-            <div class="color khaki"></div>
-          </div>
-          <button onclick="addToCart('Укороченный плащ Хуящ', 14500)">+ Добавить</button>
-        </div>
-      </div>
-
-      <div class="item">
-        <img src="https://via.placeholder.com/200x200.png?text=Плащ" alt="Плащ">
-        <div class="info">
-          <h3>Укороченный хряк</h3>
-          <p>14 500 ₽</p>
-          <div class="colors">
-            <div class="color khaki"></div>
-          </div>
-          <button onclick="addToCart('Укороченный хряк', 14500)">+ Добавить</button>
-        </div>
-      </div>
-
-      <div class="item">
-        <img src="https://via.placeholder.com/200x200.png?text=Рубаха" alt="Рубаха">
-        <div class="info">
-          <h3>Укороченный рубаха</h3>
-          <p>14 500 ₽</p>
-          <div class="colors">
-            <div class="color khaki"></div>
-          </div>
-          <button onclick="addToCart('Укороченный рубаха', 14500)">+ Добавить</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="cart">
-    <button onclick="showCart()">🛒 Корзина (<span id="cart-count">0</span>)</button>
-  </div>
-
-  <script src="script.js"></script>
-</body>
-</html>
