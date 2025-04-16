@@ -2,171 +2,167 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Каталог</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <title>CLAN VI</title>
   <style>
-    /* Стили для страницы */
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f8f8;
+      font-family: sans-serif;
       margin: 0;
       padding: 0;
-      overflow-x: hidden; /* Убираем горизонтальный скроллинг */
+      background: #f5f5f5;
     }
 
-    .container {
-      display: grid; /* Это обязательно! */
-      grid-template-columns: repeat(2, 1fr);  /* 2 колонки */
-      gap: 10px;
-      padding: 10px;
-      max-width: 100%;
-      box-sizing: border-box;
+    .app-container {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    .item {
-      background-color: white;
-      padding: 10px;
-      border: 1px solid #ddd;
+    header {
+      padding: 16px;
+      font-weight: bold;
+      font-size: 18px;
       text-align: center;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid #ddd;
     }
 
-    .item img {
+    .search-bar {
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .categories {
+      padding: 16px;
+      font-weight: bold;
+    }
+
+    .product-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 0 16px 16px;
+    }
+
+    .product-card {
+      width: calc(50% - 8px);
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-card img {
       width: 100%;
       height: auto;
-      border-radius: 4px;
     }
 
-    .item h3 {
-      font-size: 18px;
-      color: #333;
-      margin: 10px 0;
+    .product-info {
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
-    .item p {
-      font-size: 16px;
-      color: #555;
+    .price {
+      font-weight: bold;
     }
 
-    .item button {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 10px;
-      width: 100%;
+    .color-options {
+      display: flex;
+      gap: 8px;
+      margin: 4px 0;
+    }
+
+    .color-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+    }
+
+    .color-pink { background: pink; }
+    .color-blue { background: #8cc4f5; }
+    .color-brown { background: #a37d58; }
+    .color-beige { background: #d5c2a5; }
+
+    .add-btn {
+      margin: 8px;
+      padding: 8px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      text-align: center;
       cursor: pointer;
-      border-radius: 4px;
-      margin-top: 10px;
+      font-weight: bold;
     }
 
-    .item button:hover {
-      background-color: #45a049;
+    .cart-button {
+      background: #23a2f6;
+      color: white;
+      text-align: center;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      border-top: 1px solid #ddd;
     }
 
-    /* Медиа-запросы для мобильных устройств */
-    @media (max-width: 768px) {
-      .container {
-        grid-template-columns: repeat(2, 1fr); /* 2 колонки на мобильных устройствах */
-        padding: 10px; /* Уменьшаем отступы для мобильных */
-      }
-
-      .item {
-        margin-bottom: 20px; /* Добавляем отступы между товарами */
-      }
-    }
-
-    /* Для очень узких экранов */
-    @media (max-width: 480px) {
-      .container {
-        grid-template-columns: 1fr; /* Одна колонка на очень узких экранах */
-      }
-
-      .item {
-        margin-bottom: 10px; /* Уменьшаем отступы для маленьких экранов */
-      }
-    }
-
-    /* Минимизация возможного горизонтального скроллинга */
-    * {
-      box-sizing: border-box;
-    }
   </style>
-
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="catalog">
-    <div class="container">
-      <div class="item">
-        <img src="https://via.placeholder.com/200x200.png?text=Кеды" alt="Кеды">
-        <div class="info">
-          <h3>Меховые кеды модные</h3>
-          <p>8 500 ₽</p>
-          <div class="colors">
-            <div class="color beige"></div>
-            <div class="color brown"></div>
+  <div class="app-container">
+    <header>FASHION FABRIQUE</header>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Я ищу...">
+    </div>
+
+    <div class="categories">Категории</div>
+
+    <div class="product-list">
+      <div class="product-card">
+        <img src="https://via.placeholder.com/300x300?text=Куртка" alt="Куртка">
+        <div class="product-info">
+          <div class="price">19 500 ₽</div>
+          <div>КУРТКА С ВЫШИВКОЙ</div>
+          <div class="color-options">
+            <div class="color-circle color-blue"></div>
+            <div class="color-circle color-pink"></div>
           </div>
-          <button onclick="addToCart('Меховые кеды', 8500)">+ Добавить</button>
+          <div class="add-btn">+ Добавить</div>
         </div>
       </div>
 
-      <div class="item">
-        <img src="https://i.imgur.com/abc123.jpg" alt="Плащ" style="max-width: 100%; height: auto;">
-        <div class="info">
-          <h3>Укороченный плащ</h3>
-          <p>14 500 ₽</p>
-          <div class="colors">
-            <div class="color khaki"></div>
+      <div class="product-card">
+        <img src="https://via.placeholder.com/300x300?text=Кеды" alt="Кеды">
+        <div class="product-info">
+          <div class="price">8 500 ₽</div>
+          <div>МЕХОВЫЕ КЕДЫ</div>
+          <div class="color-options">
+            <div class="color-circle color-brown"></div>
+            <div class="color-circle color-beige"></div>
           </div>
-          <button onclick="addToCart('Укороченный плащ', 14500)">+ Добавить</button>
-        </div>
-      </div>
-
-      <div class="item">
-        <img src="https://via.placeholder.com/200x200.png?text=Плащ Зимний" alt="Плащ">
-        <div class="info">
-          <h3>Укороченный плащ</h3>
-          <p>14 500 ₽</p>
-          <div class="colors">
-            <div class="color khaki"></div>
-          </div>
-          <button onclick="addToCart('Укороченный плащ Хуящ', 14500)">+ Добавить</button>
-        </div>
-      </div>
-
-      <div class="item">
-        <img src="https://via.placeholder.com/200x200.png?text=Плащ" alt="Плащ">
-        <div class="info">
-          <h3>Укороченный хряк</h3>
-          <p>14 500 ₽</p>
-          <div class="colors">
-            <div class="color khaki"></div>
-          </div>
-          <button onclick="addToCart('Укороченный хряк', 14500)">+ Добавить</button>
-        </div>
-      </div>
-
-      <div class="item">
-        <img src="https://via.placeholder.com/200x200.png?text=Рубаха" alt="Рубаха">
-        <div class="info">
-          <h3>Укороченный рубаха</h3>
-          <p>14 500 ₽</p>
-          <div class="colors">
-            <div class="color khaki"></div>
-          </div>
-          <button onclick="addToCart('Укороченный рубаха', 14500)">+ Добавить</button>
+          <div class="add-btn">+ Добавить</div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="cart">
-    <button onclick="showCart()">🛒 Корзина (<span id="cart-count">0</span>)</button>
+    <div class="cart-button">Корзина</div>
   </div>
-
-  <script src="script.js"></script>
 </body>
 </html>
