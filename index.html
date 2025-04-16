@@ -6,25 +6,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+        /* Стили для страницы */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+
         .container {
-            display: flex;         /* Включаем Flexbox */
-            flex-wrap: wrap;       /* Разрешаем элементы переходить на новую строку */
-            gap: 20px;             /* Отступы между товарами */
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);  /* 2 колонки */
+            gap: 20px;
+            padding: 20px;
         }
 
         .item {
-            width: calc(50% - 20px); /* Устанавливаем ширину товара на 50% минус отступы */
-            border: 1px solid #ddd; /* Добавляем рамку товара */
-            padding: 10px;           /* Отступы внутри товара */
-            box-sizing: border-box;  /* Учитываем отступы в расчете ширины */
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .item img {
-            max-width: 100%;         /* Картинка будет растягиваться по ширине */
-            height: auto;            /* Пропорциональная высота */
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .item h3 {
+            font-size: 18px;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .item p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .item button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .item button:hover {
+            background-color: #45a049;
+        }
+
+        .cart {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff5733;
+            color: white;
+            padding: 15px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Медиа-запросы для мобильных устройств */
+        @media (max-width: 768px) { 
+            .container {
+                grid-template-columns: 1fr; /* Одна колонка на мобильных устройствах */
+            }
         }
     </style>
-
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
