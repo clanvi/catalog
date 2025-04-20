@@ -1,73 +1,69 @@
-
-// Данные для товаров (можно заменить на динамическую загрузку с API)
 const products = [
-    { id: 1, name: 'Платье', category: 'clothes', price: 1500, img: 'https://via.placeholder.com/200' },
-    { id: 2, name: 'Сумка', category: 'accessories', price: 800, img: 'https://via.placeholder.com/200' },
-    { id: 3, name: 'Куртка', category: 'clothes', price: 2500, img: 'https://via.placeholder.com/200' },
-    { id: 4, name: 'Очки', category: 'accessories', price: 500, img: 'https://via.placeholder.com/200' }
+    { id: 1, name: 'Футболка белая', price: 1200, category: 'clothes', image: 'img/tshirt.jpg' },
+    { id: 2, name: 'Сумка кожаная', price: 3500, category: 'accessories', image: 'img/bag.jpg' },
+    { id: 3, name: 'Шорты джинсовые', price: 1800, category: 'clothes', image: 'img/shorts.jpg' },
+    { id: 4, name: 'Очки солнцезащитные', price: 2300, category: 'accessories', image: 'img/sunglasses.jpg' },
+    { id: 5, name: 'Платье летнее', price: 2900, category: 'clothes', image: 'img/dress.jpg' },
+    { id: 6, name: 'Кошелёк', price: 1500, category: 'accessories', image: 'img/wallet.jpg' },
+    { id: 7, name: 'Рубашка в клетку', price: 2100, category: 'clothes', image: 'img/shirt.jpg' },
+    { id: 8, name: 'Ремень мужской', price: 1700, category: 'accessories', image: 'img/belt.jpg' },
 ];
 
-let cart = [];
-
+const productsContainer = document.querySelector('.products');
+const searchInput = document.getElementById('search-input');
 const categoryFilter = document.getElementById('category');
-const productContainer = document.querySelector('.products');
-const cartButton = document.getElementById('cart-button');
-const cartModal = document.getElementById('cart-modal');
-const closeCartButton = document.getElementById('close-cart');
-const cartItems = document.getElementById('cart-items');
+const sortSelect = document.getElementById('sort');
 
-// Функция для отрисовки товаров
-function renderProducts() {
-    productContainer.innerHTML = '';
-    const filteredProducts = products.filter(product => categoryFilter.value === 'all' || product.category === categoryFilter.value);
-    filteredProducts.forEach(product => {
-        const productElement = document.createElement('div');
-        productElement.classList.add('product');
-        productElement.innerHTML = `
-            <img src="${product.img}" alt="${product.name}">
+function renderProducts(filtered) {
+    productsContainer.innerHTML = '';
+    filtered.forEach(product => {
+        const div = document.createElement('div');
+        div.className = 'product';
+        div.innerHTML = `
+            <img src="${product.image}" alt="${product.name}" class="product-image">
             <h3>${product.name}</h3>
-            <p>${product.price}₽</p>
-            <button onclick="addToCart(${product.id})">Добавить в корзину</button>
+            <p>${product.price} ₽</p>
         `;
-        productContainer.appendChild(productElement);
+        productsContainer.appendChild(div);
     });
 }
 
-// Функция для добавления товара в корзину
-function addToCart(productId) {
-    const product = products.find(p => p.id === productId);
-    cart.push(product);
-    updateCartButton();
-    updateCartModal();
+function filterAndSortProducts() {
+    let filtered = [...products];
+
+    const search = searchInput.value.toLowerCase();
+    const category = categoryFilter.value;
+    const sort = sortSelect.value;
+
+    if (category !== 'all') {
+        filtered = filtered.filter(p => p.category === category);
+    }
+
+    if (search) {
+        filtered = filtered.filter(p => p.name.toLowerCase().includes(search));
+    }
+
+    switch (sort) {
+        case 'price-asc':
+            filtered.sort((a, b) => a.price - b.price);
+            break;
+        case 'price-desc':
+            filtered.sort((a, b) => b.price - a.price);
+            break;
+        case 'name-asc':
+            filtered.sort((a, b) => a.name.localeCompare(b.name));
+            break;
+        case 'name-desc':
+            filtered.sort((a, b) => b.name.localeCompare(a.name));
+            break;
+    }
+
+    renderProducts(filtered);
 }
 
-// Обновление кнопки корзины
-function updateCartButton() {
-    cartButton.textContent = `Корзина (${cart.length})`;
-}
+searchInput.addEventListener('input', filterAndSortProducts);
+categoryFilter.addEventListener('change', filterAndSortProducts);
+sortSelect.addEventListener('change', filterAndSortProducts);
 
-// Обновление содержимого модального окна корзины
-function updateCartModal() {
-    cartItems.innerHTML = '';
-    cart.forEach((product, index) => {
-        const cartItem = document.createElement('li');
-        cartItem.textContent = `${product.name} - ${product.price}₽`;
-        cartItems.appendChild(cartItem);
-    });
-}
-
-// Закрытие модального окна
-closeCartButton.addEventListener('click', () => {
-    cartModal.style.display = 'none';
-});
-
-// Открытие корзины
-cartButton.addEventListener('click', () => {
-    cartModal.style.display = 'flex';
-});
-
-// Отображение товаров при изменении фильтра
-categoryFilter.addEventListener('change', renderProducts);
-
-// Инициализация
-renderProducts();
+// Первая отрисовка
+renderProducts(products);
