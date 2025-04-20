@@ -67,3 +67,22 @@ sortSelect.addEventListener('change', filterAndSortProducts);
 
 // Первая отрисовка
 renderProducts(products);
+
+let cartCount = 0;
+
+const cartIcon = document.getElementById('cart-icon');
+const cartCountSpan = document.getElementById('cart-count');
+
+// Функция для добавления товара в корзину
+function addToCart(product) {
+    cartCount++;
+    cartCountSpan.textContent = cartCount;
+}
+
+// Пример добавления товара в корзину
+document.querySelectorAll('.product').forEach(productDiv => {
+    productDiv.addEventListener('click', () => {
+        addToCart(productDiv);
+    });
+});
+

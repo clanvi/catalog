@@ -1,99 +1,23 @@
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-}
-
-header {
+/* Стиль для иконки корзины */
+.cart {
+    position: relative;
     display: flex;
-    justify-content: space-between;
-    padding: 1rem;
-    background: #333;
-    color: white;
-}
-
-header .logo h1 {
-    font-size: 1.8rem;
-}
-
-header .cart button {
-    padding: 0.5rem 1rem;
-    background: #ff9800;
-    border: none;
-    cursor: pointer;
-    color: white;
-}
-
-main {
-    padding: 2rem;
-}
-
-.filters {
-    margin-bottom: 2rem;
-}
-
-.catalog {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.catalog .products {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.product {
-    background: #f4f4f4;
-    padding: 1rem;
-    border: 1px solid #ddd;
-    width: 220px;
-    text-align: center;
-}
-
-.product img {
-    max-width: 100%;
-    height: auto;
-}
-
-.product button {
-    background: #28a745;
-    color: white;
-    border: none;
-    padding: 0.5rem;
-    cursor: pointer;
-}
-
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    justify-content: center;
     align-items: center;
 }
 
-.modal-content {
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    width: 300px;
+.cart-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
 }
 
-button {
-    cursor: pointer;
-}
-
-select {
-    padding: 0.5rem;
-    font-size: 1rem;
+#cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 3px 6px;
+    font-size: 12px;
 }
