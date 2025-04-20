@@ -1,272 +1,338 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>FASHION FABRIQUE</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      background: #f5f5f5;
-    }
-    header {
-      background: #fff;
-      padding: 16px;
-      font-size: 18px;
-      font-weight: bold;
-      border-bottom: 1px solid #eee;
-      text-align: center;
-    }
-    .product-card {
-      background: #fff;
-      margin: 10px;
-      border-radius: 10px;
-      padding: 12px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-    .product-img {
-      width: 100%;
-      border-radius: 8px;
-    }
-    .product-title {
-      font-weight: bold;
-      margin-top: 8px;
-    }
-    .btn {
-      background: #2296f3;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 8px;
-    }
-    .btn:active {
-      opacity: 0.8;
-    }
-    /* Используем Grid для отображения двух товаров в ряду */
-    #product-list {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr); /* 2 колонки */
-      gap: 16px;
-      padding: 10px;
-    }
-
-    /* Адаптивность для меньших экранов */
-    @media (max-width: 768px) {
-      #product-list {
-        grid-template-columns: repeat(1, 1fr); /* 1 колонка на малых экранах */
-      }
-    }
-
-    /* Кнопка возврата */
-    #back-to-products {
-      display: none;
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      cursor: pointer;
-      font-size: 18px;
-      font-weight: bold;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог товаров</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 100%;
+            padding: 10px;
+        }
+        .header {
+            text-align: center;
+            padding: 15px;
+            background-color: #0088cc;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .back-btn {
+            position: absolute;
+            left: 10px;
+            top: 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .category {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        .category-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        .category-name {
+            padding: 10px;
+            text-align: center;
+            font-weight: 500;
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .product {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        .product-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 10px;
+        }
+        .product-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .product-price {
+            color: #0088cc;
+            font-weight: bold;
+        }
+        .product-detail {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .product-detail-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        .product-detail-info {
+            padding: 15px;
+        }
+        .product-detail-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .product-detail-price {
+            font-size: 20px;
+            color: #0088cc;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .product-detail-desc {
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .buy-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #0088cc;
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-
-<header>FASHION FABRIQUE</header>
-
-<input type="text" id="search-input" placeholder="Я ищу..." oninput="searchProducts()" style="width: 90%; margin: 10px auto; display: block; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc;">
-
-<div id="category-select" onclick="openCategories()" style="padding: 12px 16px; background: white; border-bottom: 1px solid #eee; cursor: pointer;">
-  <div style="font-weight: bold;">Категории</div>
-  <div style="color: #888;" id="selected-category-label">Все товары</div>
-</div>
-
-<div id="product-list"></div>
-
-<button onclick="openCart()" class="btn" style="margin: 20px auto; display: block; width: 90%;">Корзина</button>
-
-<!-- Кнопка возврата к списку товаров -->
-<div id="back-to-products">
-  ← Назад к товарам
-</div>
-
-<!-- Категории -->
-<div id="category-modal" style="display:none; position:fixed; inset:0; background:white; z-index:999; padding:20px; overflow-y:auto;">
-  <h3>Выберите категорию</h3>
-  <label><input type="radio" name="category" value="Все товары" checked> Все товары</label><br>
-  <label><input type="radio" name="category" value="Одежда"> Одежда</label><br>
-  <label><input type="radio" name="category" value="Обувь"> Обувь</label><br>
-  <label><input type="radio" name="category" value="Аксессуары"> Аксессуары</label><br>
-  <label><input type="radio" name="category" value="Last chance"> Last chance</label><br>
-  <label><input type="radio" name="category" value="sale -25%"> sale -25%</label><br>
-  <label><input type="radio" name="category" value="sale -40%"> sale -40%</label><br><br>
-  <button onclick="applyCategory()" class="btn">Посмотреть</button>
-</div>
-
-<!-- Корзина -->
-<div id="cart-modal" style="display:none; position:fixed; inset:0; background:white; z-index:1000; padding:20px; overflow-y:auto;">
-  <h3>🛒 Моя корзина</h3>
-  <div id="cart-items"></div>
-  <button onclick="closeCart()" class="btn" style="background: #ccc; color: #000; margin-top: 20px;">Закрыть</button>
-</div>
-
-<script>
-  const products = [
-    {
-      id: '1',
-      title: 'КУРТКА С ВЫШИВКОЙ',
-      price: 19500,
-      image: 'https://via.placeholder.com/300x400?text=Куртка',
-      colors: ['#eacaca', '#c0e0ff'],
-      category: 'Одежда'
-    },
-    {
-      id: '2',
-      title: 'МЕХОВЫЕ КЕДЫ',
-      price: 8500,
-      image: 'https://via.placeholder.com/300x400?text=Кеды',
-      colors: ['#b6a27b', '#a8a8a8'],
-      category: 'Обувь'
-    },
-    {
-      id: '3',
-      title: 'ТЕПЛЫЙ СВИТЕР',
-      price: 12000,
-      image: 'https://via.placeholder.com/300x400?text=Свитер',
-      colors: ['#9f6c4d', '#f1e5e0'],
-      category: 'Одежда'
-    },
-    {
-      id: '4',
-      title: 'КОЖАНЫЕ САПОГИ',
-      price: 15000,
-      image: 'https://via.placeholder.com/300x400?text=Сапоги',
-      colors: ['#564b4a', '#c5a88d'],
-      category: 'Обувь'
-    },
-    {
-      id: '5',
-      title: 'ДЖИНСОВАЯ РУБАШКА',
-      price: 9500,
-      image: 'https://via.placeholder.com/300x400?text=Рубашка',
-      colors: ['#476b9d', '#a6a6a6'],
-      category: 'Одежда'
-    },
-    {
-      id: '6',
-      title: 'МУЖСКИЕ ЧАСЫ',
-      price: 20000,
-      image: 'https://via.placeholder.com/300x400?text=Часы',
-      colors: ['#333333', '#d0c7c7'],
-      category: 'Аксессуары'
-    },
-    {
-      id: '7',
-      title: 'СУМКА-РЮКЗАК',
-      price: 11000,
-      image: 'https://via.placeholder.com/300x400?text=Сумка',
-      colors: ['#f2d8c7', '#9d9d9d'],
-      category: 'Аксессуары'
-    },
-    {
-      id: '8',
-      title: 'ЛЕТНИЕ КЕДЫ',
-      price: 6900,
-      image: 'https://via.placeholder.com/300x400?text=Летние+Кеды',
-      colors: ['#f7f7f7', '#5a5a5a'],
-      category: 'Обувь'
-    }
-  ];
-
-  let selectedCategory = 'Все товары';
-  const selectedColors = {};
-  const cart = [];
-
-  function renderProducts(list) {
-    const container = document.getElementById('product-list');
-    container.innerHTML = '';
-    list.forEach(product => {
-      const colorOptions = product.colors.map(color =>
-        `<span onclick="selectColor('${product.id}', '${color}')" style="display:inline-block;width:20px;height:20px;border-radius:50%;background:${color};margin-right:5px;cursor:pointer;border:2px solid #ccc;"></span>`
-      ).join('');
-      container.innerHTML += `
-        <div class="product-card">
-          <img src="${product.image}" class="product-img">
-          <div class="product-title">${product.title}</div>
-          <div>${product.price} ₽</div>
-          <div style="margin-top: 8px;">${colorOptions}</div>
-          <button class="btn" onclick="addToCart('${product.id}')">+ Добавить</button>
+    <div class="container">
+        <!-- Главный экран с категориями -->
+        <div id="main-screen">
+            <div class="header">
+                Каталог товаров
+            </div>
+            <div class="categories" id="categories-container">
+                <!-- Категории будут добавлены через JavaScript -->
+            </div>
         </div>
-      `;
-    });
-  }
 
-  function selectColor(productId, color) {
-    selectedColors[productId] = color;
-  }
+        <!-- Экран товаров в категории -->
+        <div id="category-screen" class="hidden">
+            <div class="header">
+                <span class="back-btn" onclick="goBack()">←</span>
+                <span id="category-title">Категория</span>
+            </div>
+            <div class="products" id="products-container">
+                <!-- Товары будут добавлены через JavaScript -->
+            </div>
+        </div>
 
-  function addToCart(productId) {
-    const product = products.find(p => p.id === productId);
-    const color = selectedColors[productId] || product.colors[0];
-    cart.push({ ...product, color });
-    alert('Товар добавлен в корзину!');
-  }
+        <!-- Экран деталей товара -->
+        <div id="product-screen" class="hidden">
+            <div class="header">
+                <span class="back-btn" onclick="goBack()">←</span>
+                <span id="product-title">Товар</span>
+            </div>
+            <div class="product-detail">
+                <img id="product-detail-img" class="product-detail-img" src="" alt="Товар">
+                <div class="product-detail-info">
+                    <div id="product-detail-name" class="product-detail-name"></div>
+                    <div id="product-detail-price" class="product-detail-price"></div>
+                    <div id="product-detail-desc" class="product-detail-desc"></div>
+                    <button class="buy-btn" onclick="buyProduct()">Купить</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  function openCategories() {
-    document.getElementById('category-modal').style.display = 'block';
-    document.getElementById('product-list').style.display = 'none';
-    document.getElementById('back-to-products').style.display = 'block'; // Показываем кнопку возврата
-  }
+    <script>
+        // Пример данных (в реальном приложении эти данные будут приходить с сервера)
+        const categories = [
+            {
+                id: 'clothes',
+                name: 'Одежда',
+                image: 'https://via.placeholder.com/300x200?text=Одежда'
+            },
+            {
+                id: 'shoes',
+                name: 'Обувь',
+                image: 'https://via.placeholder.com/300x200?text=Обувь'
+            },
+            {
+                id: 'accessories',
+                name: 'Аксессуары',
+                image: 'https://via.placeholder.com/300x200?text=Аксессуары'
+            },
+            {
+                id: 'bags',
+                name: 'Сумки',
+                image: 'https://via.placeholder.com/300x200?text=Сумки'
+            }
+        ];
 
-  function applyCategory() {
-    const radios = document.getElementsByName('category');
-    for (let radio of radios) {
-      if (radio.checked) {
-        selectedCategory = radio.value;
-        break;
-      }
-    }
-    document.getElementById('selected-category-label').textContent = selectedCategory;
-    document.getElementById('category-modal').style.display = 'none';
-    document.getElementById('product-list').style.display = 'block';
-    document.getElementById('back-to-products').style.display = 'none'; // Скрываем кнопку возврата
-    const filtered = selectedCategory === "Все товары"
-      ? products
-      : products.filter(p => p.category === selectedCategory);
-    renderProducts(filtered);
-  }
+        const products = {
+            'clothes': [
+                {
+                    id: '1',
+                    name: 'Футболка классическая',
+                    price: '1 990 ₽',
+                    desc: 'Белая хлопковая футболка с круглым вырезом. 100% хлопок.',
+                    image: 'https://via.placeholder.com/300x400?text=Футболка'
+                },
+                {
+                    id: '2',
+                    name: 'Джинсы скинни',
+                    price: '4 990 ₽',
+                    desc: 'Синие джинсы облегающего кроя. 98% хлопок, 2% эластан.',
+                    image: 'https://via.placeholder.com/300x400?text=Джинсы'
+                }
+            ],
+            'shoes': [
+                {
+                    id: '3',
+                    name: 'Кроссовки спортивные',
+                    price: '5 990 ₽',
+                    desc: 'Удобные кроссовки для бега и повседневной носки.',
+                    image: 'https://via.placeholder.com/300x400?text=Кроссовки'
+                }
+            ]
+        };
 
-  function searchProducts() {
-    const query = document.getElementById('search-input').value.toLowerCase();
-    const filtered = products.filter(p => p.title.toLowerCase().includes(query));
-    renderProducts(filtered);
-  }
+        // Текущий стек экранов для навигации
+        let screenStack = ['main'];
 
-  function openCart() {
-    document.getElementById('cart-modal').style.display = 'block';
-    const cartItems = cart.map(item => `
-      <div style="margin-bottom: 12px; border-bottom: 1px solid #ccc; padding-bottom: 8px;">
-        <div><b>${item.title}</b> – ${item.price} ₽</div>
-        <div>Цвет: <span style="display:inline-block;width:12px;height:12px;background:${item.color};border-radius:50%;"></span></div>
-      </div>
-    `).join('');
-    document.getElementById('cart-items').innerHTML = cartItems;
-  }
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCategories();
+        });
 
-  function closeCart() {
-    document.getElementById('cart-modal').style.display = 'none';
-  }
+        // Рендер категорий
+        function renderCategories() {
+            const container = document.getElementById('categories-container');
+            container.innerHTML = '';
 
-  document.getElementById('back-to-products').onclick = () => {
-    document.getElementById('category-modal').style.display = 'none';
-    document.getElementById('product-list').style.display = 'block';
-    document.getElementById('back-to-products').style.display = 'none';
-  };
+            categories.forEach(category => {
+                const categoryElement = document.createElement('div');
+                categoryElement.className = 'category';
+                categoryElement.innerHTML = `
+                    <img src="${category.image}" alt="${category.name}" class="category-img">
+                    <div class="category-name">${category.name}</div>
+                `;
+                categoryElement.addEventListener('click', () => openCategory(category.id));
+                container.appendChild(categoryElement);
+            });
+        }
 
-  renderProducts(products);
-</script>
+        // Открыть категорию
+        function openCategory(categoryId) {
+            const category = categories.find(c => c.id === categoryId);
+            if (!category) return;
 
+            document.getElementById('category-title').textContent = category.name;
+            document.getElementById('main-screen').classList.add('hidden');
+            document.getElementById('category-screen').classList.remove('hidden');
+            document.getElementById('product-screen').classList.add('hidden');
+
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+
+            const categoryProducts = products[categoryId] || [];
+            categoryProducts.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.className = 'product';
+                productElement.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-img">
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">${product.price}</div>
+                    </div>
+                `;
+                productElement.addEventListener('click', () => openProduct(categoryId, product.id));
+                container.appendChild(productElement);
+            });
+
+            screenStack.push('category');
+        }
+
+        // Открыть товар
+        function openProduct(categoryId, productId) {
+            const categoryProducts = products[categoryId] || [];
+            const product = categoryProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            document.getElementById('product-title').textContent = product.name;
+            document.getElementById('product-detail-name').textContent = product.name;
+            document.getElementById('product-detail-price').textContent = product.price;
+            document.getElementById('product-detail-desc').textContent = product.desc;
+            document.getElementById('product-detail-img').src = product.image;
+
+            document.getElementById('main-screen').classList.add('hidden');
+            document.getElementById('category-screen').classList.add('hidden');
+            document.getElementById('product-screen').classList.remove('hidden');
+
+            screenStack.push('product');
+        }
+
+        // Назад
+        function goBack() {
+            if (screenStack.length <= 1) return;
+
+            screenStack.pop();
+            const currentScreen = screenStack[screenStack.length - 1];
+
+            document.getElementById('main-screen').classList.add('hidden');
+            document.getElementById('category-screen').classList.add('hidden');
+            document.getElementById('product-screen').classList.add('hidden');
+
+            if (currentScreen === 'main') {
+                document.getElementById('main-screen').classList.remove('hidden');
+            } else if (currentScreen === 'category') {
+                document.getElementById('category-screen').classList.remove('hidden');
+            }
+        }
+
+        // Купить товар
+        function buyProduct() {
+            alert('Товар добавлен в корзину!');
+            // Здесь можно добавить логику добавления в корзину
+        }
+
+        // Для интеграции с Telegram WebApp
+        if (window.Telegram && Telegram.WebApp) {
+            Telegram.WebApp.expand();
+            Telegram.WebApp.enableClosingConfirmation();
+        }
+    </script>
 </body>
 </html>
