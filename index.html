@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Каталог</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="catalog">
-    <div class="item">
-      <img src="https://via.placeholder.com/150x150.png?text=Товар+1" alt="Товар 1">
-      <h3>Товар 1</h3>
-      <p>3 500 ₽</p>
-      <button onclick="addToCart('Товар 1', 3500)">+ Добавить</button>
+  <div class="container">
+    <input type="text" id="searchInput" placeholder="Поиск по товарам..." class="search-bar" />
+    <div class="sort-options">
+      <button class="sort-button" data-sort="default">По умолчанию</button>
+      <button class="sort-button" data-sort="recommended">Рекомендуем</button>
+      <button class="sort-button" data-sort="new">Новинки</button>
+      <button class="sort-button" data-sort="price-asc">По возрастанию цены</button>
+      <button class="sort-button" data-sort="price-desc">По убыванию цены</button>
     </div>
-    <div class="item">
-      <img src="https://via.placeholder.com/150x150.png?text=Товар+2" alt="Товар 2">
-      <h3>Товар 2</h3>
-      <p>5 000 ₽</p>
-      <button onclick="addToCart('Товар 2', 5000)">+ Добавить</button>
+    <div class="categories">
+      <button class="category-button" data-category="gift">Подарочная карта</button>
+      <button class="category-button" data-category="last-chance">Last chance</button>
+      <button class="category-button" data-category="shoes">Обувь</button>
+      <button class="category-button" data-category="clothing">Одежда</button>
+      <button class="category-button" data-category="accessories">Аксессуары</button>
+      <button class="category-button" data-category="sale25">sale -25%</button>
+      <button class="category-button" data-category="sale40">sale -40%</button>
     </div>
-    <!-- Добавляй больше товаров по такому же шаблону -->
+    <div id="catalog" class="catalog"></div>
   </div>
-
-  <div class="cart-button">
-    <button onclick="showCart()">🛒 Корзина (<span id="cart-count">0</span>)</button>
-  </div>
-
+  <div id="cartIcon" class="cart-icon" onclick="openCart()">🛒</div>
   <script src="script.js"></script>
 </body>
 </html>
