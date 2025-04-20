@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Каталог товаров</title>
+    <title>Fashion Catalog</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,10 +17,12 @@
     </header>
 
     <main>
+        <!-- Поиск по каталогу -->
         <section class="search-bar">
             <input type="text" id="search-input" placeholder="Поиск по каталогу...">
         </section>
 
+        <!-- Фильтры -->
         <section class="filters">
             <h2>Фильтры</h2>
             <label for="category">Категория:</label>
@@ -40,6 +42,7 @@
             </select>
         </section>
 
+        <!-- Каталог товаров -->
         <section class="catalog">
             <h2>Каталог товаров</h2>
             <div class="products" id="products-list">
@@ -48,6 +51,7 @@
         </section>
     </main>
 
+    <!-- Корзина -->
     <div id="cart-modal" class="modal">
         <div class="modal-content">
             <h3>Корзина</h3>
