@@ -1,71 +1,73 @@
+// Массив данных о товарах
 const products = [
-  { id: 1, name: "Платье красное", image: "https://via.placeholder.com/150?text=Платье+1", price: "1200₽" },
-  { id: 2, name: "Платье синее", image: "https://via.placeholder.com/150?text=Платье+2", price: "1300₽" },
-  { id: 3, name: "Пальто бежевое", image: "https://via.placeholder.com/150?text=Пальто", price: "2500₽" },
-  { id: 4, name: "Куртка демисезон", image: "https://via.placeholder.com/150?text=Куртка", price: "3000₽" },
-  { id: 5, name: "Джинсы синие", image: "https://via.placeholder.com/150?text=Джинсы", price: "1800₽" },
-  { id: 6, name: "Свитер вязаный", image: "https://via.placeholder.com/150?text=Свитер", price: "1600₽" },
-  { id: 7, name: "Рубашка белая", image: "https://via.placeholder.com/150?text=Рубашка", price: "1100₽" },
-  { id: 8, name: "Футболка черная", image: "https://via.placeholder.com/150?text=Футболка", price: "900₽" },
+    {id: 1, name: "Платье", price: 3000, imageUrl: 'https://via.placeholder.com/300x300?text=Product'},
+    {id: 2, name: "Сумочка", price: 1500, imageUrl: 'https://via.placeholder.com/300x300?text=Product'},
+    // Добавьте больше продуктов здесь...
 ];
 
-const cart = [];
+let cartItems = [];
 
-const catalogEl = document.getElementById("productCatalog");
-const cartCountEl = document.getElementById("cartCount");
-const cartItemsEl = document.getElementById("cartItems");
-const cartModal = document.getElementById("cartModal");
-const checkoutModal = document.getElementById("checkoutModal");
+document.addEventListener('DOMContentLoaded', () => {
+    const productCatalogElement = document.getElementById("product-catalog");
 
-function renderCatalog() {
-  catalogEl.innerHTML = "";
-  products.forEach(product => {
-    const card = document.createElement("div");
-    card.className = "product";
-    card.innerHTML = \`
-      <img src="\${product.image}" alt="\${product.name}">
-      <h3>\${product.name}</h3>
-      <p>\${product.price}</p>
-      <button onclick="addToCart(\${product.id})">В корзину</button>
-    \`;
-    catalogEl.appendChild(card);
-  });
-}
+    function createProductCard(product) {
+        let cardHTML = `
+            <div class="product-card" data-id="${product.id}">
+                <img src="<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>d</mi><mi>u</mi><mi>c</mi><mi>t</mi><mi mathvariant="normal">.</mi><mi>i</mi><mi>m</mi><mi>a</mi><mi>g</mi><mi>e</mi><mi>U</mi><mi>r</mi><mi>l</mi></mrow><mi mathvariant="normal">&quot;</mi><mi>a</mi><mi>l</mi><mi>t</mi><mo>=</mo><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">{product.imageUrl}&quot; alt=&quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="mord mathnormal">ro</span><span class="mord mathnormal">d</span><span class="mord mathnormal">u</span><span class="mord mathnormal">c</span><span class="mord mathnormal">t</span><span class="mord">.</span><span class="mord mathnormal">ima</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span></span><span class="mord">&quot;</span><span class="mord mathnormal">a</span><span class="mord mathnormal">lt</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">&quot;</span></span></span></span>{product.name}"/>
+                <h3>${product.name}</h3>
+                <p>${product.price} руб.</p>
+            </div>
+        `;
+        return cardHTML;
+    }
 
-function addToCart(id) {
-  const product = products.find(p => p.id === id);
-  cart.push(product);
-  cartCountEl.textContent = cart.length;
-}
+    // Создаем карточки товаров
+    products.forEach((product) => {
+        productCatalogElement.innerHTML += createProductCard(product);
+    });
 
-function toggleCart() {
-  cartModal.classList.toggle("hidden");
-  updateCartItems();
-}
-
-function updateCartItems() {
-  cartItemsEl.innerHTML = "";
-  cart.forEach((item, i) => {
-    const li = document.createElement("li");
-    li.textContent = \`\${item.name} — \${item.price}\`;
-    cartItemsEl.appendChild(li);
-  });
-}
-
-function toggleCheckout() {
-  checkoutModal.classList.toggle("hidden");
-  cartModal.classList.toggle("hidden");
-}
-
-document.getElementById("cartBtn").addEventListener("click", toggleCart);
-document.getElementById("checkoutBtn").addEventListener("click", toggleCheckout);
-
-document.getElementById("orderForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  alert("Заявка отправлена!");
-  cart.length = 0;
-  cartCountEl.textContent = 0;
-  checkoutModal.classList.add("hidden");
+    // Обработчик события нажатия на карточку товара
+    productCatalogElement.addEventListener('click', event => {
+        if(event.target.closest('.product-card')) {
+            showProductDetails(event.target.closest('.product-card').dataset.id);
+        }
+    });
 });
 
-renderCatalog();
+function showProductDetails(id) {
+    const selectedProduct = products.find(p => p.id == id);
+
+    document.querySelector('#modal-image').src = selectedProduct.imageUrl;
+    document.querySelector('#modal-name').innerText = selectedProduct.name;
+    document.querySelector('#modal-price').innerText = `${selectedProduct.price}`;
+
+    document.getElementById('product-details-modal').hidden = false;
+}
+
+function closeModal() {
+    document.getElementById('product-details-modal').hidden = true;
+}
+
+function addToCart() {
+    const modalID = document.querySelector('#product-details-modal > img').getAttribute('src');
+    const currentProduct = products.find(p => p.imageUrl === modalID);
+
+    cartItems.push(currentProduct);
+    updateCart();
+    closeModal(); 
+}
+
+function proceedToCheckout() {
+    document.getElementById('checkout-page').hidden = false;
+}
+
+function updateCart() {
+    const cartList = document.getElementById('cart-items');
+    cartList.innerHTML = '';
+
+    cartItems.forEach(item => {
+        cartList.innerHTML += `<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi>i</mi><mi>t</mi><mi>e</mi><mi>m</mi><mi mathvariant="normal">.</mi><mi>n</mi><mi>a</mi><mi>m</mi><mi>e</mi></mrow><mo>:</mo></mrow><annotation encoding="application/x-tex">{item.name}: </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord"><span class="mord mathnormal">i</span><span class="mord mathnormal">t</span><span class="mord mathnormal">e</span><span class="mord mathnormal">m</span><span class="mord">.</span><span class="mord mathnormal">nam</span><span class="mord mathnormal">e</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span></span></span></span>{item.price} руб.</li>`;
+    });
+
+    document.getElementById('cart-container').hidden = false;  
+}
