@@ -1,69 +1,67 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const productsList = document.getElementById('products-list');
-    const cartButton = document.getElementById('cart-button');
-    const cartModal = document.getElementById('cart-modal');
-    const closeCartButton = document.getElementById('close-cart');
-    const cartItems = document.getElementById('cart-items');
-    const searchInput = document.getElementById('search-input');
-    const categorySelect = document.getElementById('category');
-    const sortSelect = document.getElementById('sort');
+const products = [
+  { id: 1, name: "Товар 1", image: "https://via.placeholder.com/150", price: "1200₽" },
+  { id: 2, name: "Товар 2", image: "https://via.placeholder.com/150", price: "900₽" },
+  { id: 3, name: "Товар 3", image: "https://via.placeholder.com/150", price: "700₽" },
+  { id: 4, name: "Товар 4", image: "https://via.placeholder.com/150", price: "1500₽" },
+];
 
-    let cart = [];
-    let products = [
-        { id: 1, name: 'Товар 1', price: 1000, category: 'clothes', image: 'https://via.placeholder.com/200' },
-        { id: 2, name: 'Товар 2', price: 2000, category: 'clothes', image: 'https://via.placeholder.com/200' },
-        { id: 3, name: 'Товар 3', price: 1500, category: 'accessories', image: 'https://via.placeholder.com/200' },
-        { id: 4, name: 'Товар 4', price: 2500, category: 'accessories', image: 'https://via.placeholder.com/200' },
-        { id: 5, name: 'Товар 5', price: 3000, category: 'clothes', image: 'https://via.placeholder.com/200' },
-        { id: 6, name: 'Товар 6', price: 4000, category: 'clothes', image: 'https://via.placeholder.com/200' },
-        { id: 7, name: 'Товар 7', price: 1200, category: 'accessories', image: 'https://via.placeholder.com/200' },
-        { id: 8, name: 'Товар 8', price: 1800, category: 'accessories', image: 'https://via.placeholder.com/200' }
-    ];
+const cart = [];
 
-    function renderProducts(productsToRender) {
-        productsList.innerHTML = '';
-        productsToRender.forEach(product => {
-            const productDiv = document.createElement('div');
-            productDiv.classList.add('product');
-            productDiv.innerHTML = `
-                <img src="${product.image}" alt="${product.name}">
-                <h3>${product.name}</h3>
-                <p>Цена: ${product.price} руб.</p>
-                <button data-id="${product.id}">Добавить в корзину</button>
-            `;
-            productsList.appendChild(productDiv);
-        });
+const catalogEl = document.getElementById("productCatalog");
+const cartCountEl = document.getElementById("cartCount");
+const cartItemsEl = document.getElementById("cartItems");
+const cartModal = document.getElementById("cartModal");
+const checkoutModal = document.getElementById("checkoutModal");
 
-        const addToCartButtons = document.querySelectorAll('.product button');
-        addToCartButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const productId = parseInt(button.getAttribute('data-id'));
-                const product = products.find(p => p.id === productId);
-                cart.push(product);
-                updateCart();
-            });
-        });
-    }
+function renderCatalog() {
+  catalogEl.innerHTML = "";
+  products.forEach(product => {
+    const card = document.createElement("div");
+    card.className = "product";
+    card.innerHTML = \`
+      <img src="\${product.image}" alt="\${product.name}">
+      <h3>\${product.name}</h3>
+      <p>\${product.price}</p>
+      <button onclick="addToCart(\${product.id})">В корзину</button>
+    \`;
+    catalogEl.appendChild(card);
+  });
+}
 
-    function updateCart() {
-        cartButton.textContent = `Корзина (${cart.length})`;
-        cartItems.innerHTML = '';
-        cart.forEach(product => {
-            const li = document.createElement('li');
-            li.textContent = `${product.name} - ${product.price} руб.`;
-            cartItems.appendChild(li);
-        });
-    }
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  cart.push(product);
+  cartCountEl.textContent = cart.length;
+}
 
-    closeCartButton.addEventListener('click', function() {
-        cartModal.style.display = 'none';
-    });
+function toggleCart() {
+  cartModal.classList.toggle("hidden");
+  updateCartItems();
+}
 
-    cartButton.addEventListener('click', function() {
-        cartModal.style.display = 'flex';
-    });
+function updateCartItems() {
+  cartItemsEl.innerHTML = "";
+  cart.forEach((item, i) => {
+    const li = document.createElement("li");
+    li.textContent = \`\${item.name} — \${item.price}\`;
+    cartItemsEl.appendChild(li);
+  });
+}
 
-    searchInput.addEventListener('input', function() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const filteredProducts = products.filter(product => product.name.toLowerCase().includes(searchTerm));
-        renderProducts
+function toggleCheckout() {
+  checkoutModal.classList.toggle("hidden");
+  cartModal.classList.toggle("hidden");
+}
+
+document.getElementById("cartBtn").addEventListener("click", toggleCart);
+document.getElementById("checkoutBtn").addEventListener("click", toggleCheckout);
+
+document.getElementById("orderForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  alert("Заявка отправлена!");
+  cart.length = 0;
+  cartCountEl.textContent = 0;
+  checkoutModal.classList.add("hidden");
+});
+
+renderCatalog();
